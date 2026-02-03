@@ -50,7 +50,7 @@ let convert (g : G.guestfs) source inspect i_firmware _ keep_serial_console _ =
     match inspect.i_distro with
     | "fedora"
     | "rhel" | "centos" | "circle" | "scientificlinux" | "redhat-based"
-    | "oraclelinux" | "rocky" -> `RHEL_family
+    | "oraclelinux" | "rocky" | "amazonlinux" -> `RHEL_family
     | "altlinux" -> `ALT_family
     | "sles" | "suse-based" | "opensuse" -> `SUSE_family
     | "debian" | "ubuntu" | "linuxmint" | "kalilinux" -> `Debian_family
@@ -1300,7 +1300,7 @@ fi
         else (
           info (f_"Fixing UEFI bootloader.");
           match inspect.i_distro, inspect.i_major_version with
-            | "centos", 6 ->
+            | ("centos", 6) | ("amazonlinux", 2) ->
               (* to make a bootable uefi centos 6 we need to
                * copy grub.efi and grub.conf to UEFI fallback path
                * and rename them to BOOT<arch>.efi and BOOT<arch>.conf

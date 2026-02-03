@@ -129,7 +129,7 @@ let rec convert input_disks options source =
                     | "redhat-based" | "oraclelinux" | "rocky"
                     | "sles" | "suse-based" | "opensuse"
                     | "altlinux"
-                    | "debian" | "ubuntu" | "linuxmint" | "kalilinux") } ->
+                    | "debian" | "ubuntu" | "linuxmint" | "kalilinux" | "amazonlinux") } ->
        (module Convert_linux.Convert_linux : Convert_types.CONVERT)
     | { i_type = "windows" } ->
        (module Convert_windows.Convert_windows : Convert_types.CONVERT)
@@ -225,7 +225,8 @@ and check_guest_free_space inspect mpstats =
      *)
     | "/" -> 100
     (* For everything else, just make sure there is some free space. *)
-    | _ -> 10
+    | "/boot/efi" -> 5
+    | _ -> 5
   in
 
   (* Reasonable headroom for conversion operations. *)
